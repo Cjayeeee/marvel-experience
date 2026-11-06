@@ -61,6 +61,7 @@ function seoFiles(url: string): Plugin {
     '/timeline',
     '/arena',
     '/team-builder',
+    '/doomsday',
     ...characters.map((c) => `/characters/${c.slug}`),
     ...titles.map((t) => `/titles/${t.id}`),
   ]

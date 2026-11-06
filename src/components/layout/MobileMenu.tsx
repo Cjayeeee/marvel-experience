@@ -93,6 +93,12 @@ export function MobileMenu() {
                   {item.index}
                 </span>
                 {item.label}
+                {item.live ? (
+                  <span aria-hidden="true" className="relative ml-1 inline-flex size-2.5 self-center">
+                    <span className="absolute inset-0 rounded-full bg-red opacity-75 motion-safe:animate-ping" />
+                    <span className="relative size-2.5 rounded-full bg-red" />
+                  </span>
+                ) : null}
               </NavLink>
             </li>
           ))}

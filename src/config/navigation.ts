@@ -3,6 +3,8 @@ export type NavItem = {
   to: string
   /** File index shown in the mobile menu, e.g. "01". */
   index: string
+  /** Shows a pulsing "live" dot next to the label. */
+  live?: boolean
 }
 
 export const primaryNav: NavItem[] = [
@@ -12,6 +14,7 @@ export const primaryNav: NavItem[] = [
   { label: 'Timeline', to: '/timeline', index: '04' },
   { label: 'Team Builder', to: '/team-builder', index: '05' },
   { label: 'Arena', to: '/arena', index: '06' },
+  { label: 'Doomsday', to: '/doomsday', index: '07', live: true },
 ]
 
 export const footerNav: { heading: string; links: { label: string; to: string }[] }[] = [
@@ -23,6 +26,7 @@ export const footerNav: { heading: string; links: { label: string; to: string }[
       { label: 'Movies', to: '/movies' },
       { label: 'Series', to: '/series' },
       { label: 'Timeline', to: '/timeline' },
+      { label: 'Doomsday countdown', to: '/doomsday' },
     ],
   },
   {

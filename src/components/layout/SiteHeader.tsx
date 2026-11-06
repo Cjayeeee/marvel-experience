@@ -36,6 +36,12 @@ export function SiteHeader() {
                     )
                   }
                 >
+                  {item.live ? (
+                    <span aria-hidden="true" className="relative mr-2 inline-flex size-1.5 -translate-y-px align-middle">
+                      <span className="absolute inset-0 rounded-full bg-current opacity-75 motion-safe:animate-ping" />
+                      <span className="relative size-1.5 rounded-full bg-current" />
+                    </span>
+                  ) : null}
                   {item.label}
                 </NavLink>
               </li>

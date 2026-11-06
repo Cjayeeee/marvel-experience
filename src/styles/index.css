@@ -193,3 +193,70 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Doom theme · /doomsday only
+   Re-points the colour tokens inside .theme-doom, so every
+   red/void utility on that page (including shared buttons)
+   turns emerald and green-black. Header and footer are unaffected.
+   ───────────────────────────────────────────────────────────── */
+.theme-doom {
+  --color-red: #3fd46a;
+  --color-red-bright: #8dff9c;
+  --color-void: #040805;
+  --color-void-raised: #08120b;
+  --color-void-card: #0d1a10;
+  --color-line: rgb(141 255 156 / 0.16);
+  --color-mute: #93a898;
+  --color-bone: #e8f0e9;
+  /* Text on emerald buttons: dark, since white on bright green is unreadable. */
+  --color-white: #03140a;
+}
+
+/* Brushed-steel lettering. */
+.doom-metal {
+  background: linear-gradient(
+    180deg,
+    #f7faf7 0%,
+    #c9d2cc 30%,
+    #7c8781 48%,
+    #e3e9e5 64%,
+    #9aa59f 82%,
+    #dfe6e1 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(141 255 156 / 0.35);
+  filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.6));
+}
+
+.doom-glow {
+  color: #6dfb86;
+}
+
+/* Soft god-rays falling from the window. */
+.doom-rays {
+  background:
+    linear-gradient(105deg, transparent 38%, rgb(141 255 156 / 0.07) 44%, transparent 52%),
+    linear-gradient(112deg, transparent 55%, rgb(141 255 156 / 0.05) 60%, transparent 66%),
+    linear-gradient(98deg, transparent 20%, rgb(141 255 156 / 0.04) 25%, transparent 31%);
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .doom-rays {
+    animation: doom-rays 14s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes doom-rays {
+  from {
+    opacity: 0.55;
+    transform: translateX(-2%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(2%);
+  }
+}
