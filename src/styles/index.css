@@ -1,0 +1,182 @@
+@import 'lenis/dist/lenis.css';
+@import '@fontsource/anton/latin-400.css';
+@import '@fontsource-variable/inter-tight/index.css';
+@import '@fontsource-variable/jetbrains-mono/index.css';
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   MARVEL: MULTIVERSE — design tokens
+   Paper  = dossier / comic newsprint (light surfaces)
+   Void   = space between universes (dark surfaces)
+   Red    = the single UI accent. Violet/cyan live only inside 3D scenes.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #eee6d8;
+  --color-paper-dim: #e2d8c6;
+  --color-paper-line: #cfc3ae;
+  --color-ink: #0a0a0a;
+  --color-ink-mute: #4a4440;
+
+  --color-void: #121011;
+  --color-void-raised: #1b1819;
+  --color-void-card: #242021;
+  --color-line: #3a3536;
+  --color-mute: #a39b90;
+  --color-bone: #eee6d8;
+
+  --color-red: #e62429;
+  --color-red-bright: #ff4a4f;
+  --color-gold: #c9a44c;
+
+  --color-portal-violet: #5b3fd6;
+  --color-portal-cyan: #4fd1ff;
+
+  --font-display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
+  --font-sans: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Display scale (fluid). Anton runs tall, so line-heights stay tight. */
+  --text-mega: clamp(5.5rem, 21vw, 22rem);
+  --text-mega--line-height: 0.82;
+  --text-giant: clamp(3.5rem, 11vw, 10rem);
+  --text-giant--line-height: 0.86;
+  --text-huge: clamp(2.75rem, 7vw, 6.5rem);
+  --text-huge--line-height: 0.9;
+  --text-big: clamp(2rem, 4.2vw, 3.75rem);
+  --text-big--line-height: 0.95;
+
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1); /* ≈ expo.out */
+  --ease-portal: cubic-bezier(0.65, 0, 0.35, 1); /* ≈ power3.inOut */
+
+  --breakpoint-xs: 26rem;
+}
+
+@layer base {
+  html {
+    /* Keep the scrollbar's width reserved even while the intro locks scrolling,
+       so layout (and ScrollTrigger's pin measurements) never shift by its width. */
+    scrollbar-gutter: stable;
+    background: var(--color-void);
+    color: var(--color-bone);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    /* Safety net: decorative bleed (rotated bands, scaled art) never causes sideways scrolling. */
+    overflow-x: clip;
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: var(--color-red);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-red-bright);
+    outline-offset: 3px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Halftone dot texture used on paper surfaces and artwork placeholders */
+  .halftone {
+    background-image: radial-gradient(currentColor 0.9px, transparent 1.1px);
+    background-size: 7px 7px;
+  }
+
+  /* Subtle print grain over paper */
+  .paper-grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .paper-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.17 0 0 0 0 0.14 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Dossier redaction: an ink bar over each line that is wiped away on scroll */
+  .redact-line {
+    background-image: linear-gradient(var(--color-ink), var(--color-ink));
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 0% 100%;
+  }
+
+  /* Film-strip sprocket rows (timeline preview) */
+  .sprockets {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent 0 10px,
+      var(--color-void) 10px 22px,
+      transparent 22px 34px
+    );
+  }
+}
+
+@layer utilities {
+  .marquee-track {
+    animation: marquee 38s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  .orbit-spin {
+    animation: orbit-spin 60s linear infinite;
+  }
+  .orbit-spin-reverse {
+    animation: orbit-spin 90s linear infinite reverse;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Brief red highlight for a deep-linked timeline entry */
+@keyframes spotlight {
+  0%,
+  45% {
+    border-color: var(--color-red);
+    background-color: rgba(230, 36, 41, 0.14);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
