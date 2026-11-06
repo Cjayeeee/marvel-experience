@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Typography'
+import { AvailabilityBadge, CreatorLinks } from '@/components/brand/CreatorCredit'
+import { creator } from '@/config/creator'
 import { gsap, useGSAP } from '@/motion/gsap'
 
 /**
@@ -75,6 +77,26 @@ export function ManifestoSection() {
             Every fact is sourced. Where the record is editorial (power ratings,
             fan timeline placements), it says so on the file.
           </p>
+        </div>
+
+        <div
+          data-reveal="up"
+          className="flex flex-col gap-5 border-t border-line pt-8 md:flex-row md:items-center md:justify-between md:gap-10"
+        >
+          <div className="flex flex-col gap-3">
+            <Eyebrow className="text-mute">Made by</Eyebrow>
+            <p className="max-w-2xl text-lg leading-relaxed text-bone/90">
+              Designed and built by{' '}
+              <a href={creator.portfolio} target="_blank" rel="noopener" className="font-semibold text-bone hover:text-red-bright">
+                {creator.name}
+              </a>
+              . If you’d like something like this for your own project, I’m taking on freelance work.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-col gap-3 md:items-end">
+            <AvailabilityBadge />
+            <CreatorLinks className="md:justify-end" />
+          </div>
         </div>
       </Container>
     </section>

@@ -4,6 +4,8 @@ import { gsap, useGSAP } from '@/motion/gsap'
 import { OrbitMark } from '@/components/brand/OrbitMark'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Typography'
+import { AvailabilityBadge, CreatorLinks } from '@/components/brand/CreatorCredit'
+import { creator } from '@/config/creator'
 import { footerNav } from '@/config/navigation'
 
 /** Footer: link columns, then the giant cropped wordmark over a planet arc. */
@@ -33,6 +35,16 @@ export function SiteFooter() {
             An archive of every reality, every hero and every possibility, built
             by a fan, for fans.
           </p>
+          <div className="flex flex-col gap-3 border-t border-line pt-5">
+            <p className="text-[0.95rem]">
+              Designed &amp; built by{' '}
+              <a href={creator.portfolio} target="_blank" rel="noopener" className="font-semibold hover:text-red-bright">
+                {creator.name}
+              </a>
+            </p>
+            <AvailabilityBadge />
+            <CreatorLinks className="text-[0.9rem] text-bone/85" />
+          </div>
         </div>
 
         {footerNav.map((group) => (

@@ -164,3 +164,8 @@ Fonts: **Anton** (display), **Inter Tight** (body), **JetBrains Mono** (labels).
 
 `vercel.json` rewrites every path except `/api/*` to `index.html`, so deep links work on Vercel.
 Set `OMDB_API_KEY` in the project's environment variables (see above).
+
+## Credits
+
+Designed and built by **Jayant**: [jayantchaudhari.com](https://jayantchaudhari.com/). Open to freelance work.
+Name, links and availability are set in `src/config/creator.ts`.
