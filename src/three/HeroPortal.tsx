@@ -6,8 +6,29 @@ import { getRenderTier, type RenderTier } from './capability'
 import { PortalFallback } from './fallback/PortalFallback'
 import { CANVAS_SCALE } from './scenes/heroPortal/sceneConfig'
 
+import earthTextureUrl from '@/assets/earth/earth-packed.webp'
+
 // three.js + R3F load only here, only on capable devices.
-const HeroPortalScene = lazy(() => import('./scenes/heroPortal/HeroPortalScene'))
+const loadScene = () => import('./scenes/heroPortal/HeroPortalScene')
+const HeroPortalScene = lazy(loadScene)
+
+/**
+ * Warm the 3D globe while the intro plays: download the Earth texture now
+ * (network only, so the intro never stutters) and fetch the 3D code when the
+ * browser is idle. When the intro ends, the scene mounts from cache.
+ */
+let warmed = false
+function warmUp() {
+  if (warmed || typeof document === 'undefined') return
+  warmed = true
+  const link = document.createElement('link')
+  link.rel = 'preload'
+  link.as = 'image'
+  link.href = earthTextureUrl
+  document.head.append(link)
+  const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1200))
+  idle(() => void loadScene(), { timeout: 2500 })
+}
 
 const overflow = `${((CANVAS_SCALE - 1) / 2) * -100}%`
 
@@ -47,6 +68,10 @@ export function HeroPortal({ className }: HeroPortalProps) {
   }, [tier])
 
   const show3D = tier !== 'none' && !failed && !introPlaying
+
+  useEffect(() => {
+    if (tier !== 'none') warmUp()
+  }, [tier])
 
   return (
     <div ref={wrapper} className={cn('relative aspect-square', className)}>
