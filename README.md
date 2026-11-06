@@ -141,6 +141,9 @@ server functions only.
 - **Analytics**: Vercel Web Analytics (`<Analytics />` in `src/app/RootLayout.tsx`). Turn it on in the Vercel
   dashboard (project → Analytics → Enable), then redeploy. It's cookieless and counts client-side route changes
   as page views. It sends nothing in local development.
+- **Search**: `robots.txt` and `sitemap.xml` (125 pages) are generated at build time by `vite.config.ts`. The
+  sitemap needs the site's address, taken from `SITE_URL` or Vercel's production domain. The Google Search Console
+  verification file lives in `public/`; keep it there so the site stays verified.
 - **Link previews**: `public/og.jpg` (1200×630). `%SITE_URL%` in `index.html` is filled in at build time from
   `SITE_URL` or Vercel's production domain.
 
