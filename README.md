@@ -138,6 +138,9 @@ server functions only.
 - **Earth texture**: from [Solar System Scope](https://www.solarsystemscope.com/textures/), licensed
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). It was adapted: packed into land/cloud channels
   (`earth-packed.webp`) and rendered as a halftone horizon (`earth-horizon.webp`, `og.jpg`). The credit is in the footer.
+- **Analytics**: Vercel Web Analytics (`<Analytics />` in `src/app/RootLayout.tsx`). Turn it on in the Vercel
+  dashboard (project → Analytics → Enable), then redeploy. It's cookieless and counts client-side route changes
+  as page views. It sends nothing in local development.
 - **Link previews**: `public/og.jpg` (1200×630). `%SITE_URL%` in `index.html` is filled in at build time from
   `SITE_URL` or Vercel's production domain.
 

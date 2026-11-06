@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { Suspense, useEffect } from 'react'
 import { Outlet, ScrollRestoration, useLocation } from 'react-router'
 import { MobileMenu } from '@/components/layout/MobileMenu'
@@ -37,6 +38,8 @@ export function RootLayout() {
       <SiteFooter />
       <RouteTransition />
       <IntroSequence />
+      {/* Vercel Web Analytics: cookieless page views, only on Vercel deployments */}
+      <Analytics />
       <ScrollRestoration />
     </>
   )
