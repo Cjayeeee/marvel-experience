@@ -175,7 +175,7 @@ export function HeroSection() {
           </h1>
 
           <div className="absolute inset-0 z-10 flex items-center justify-center">
-            <div className="relative w-[min(68vw,32rem)] translate-y-[12%]">
+            <div className="relative w-[42vw] translate-y-[12%] sm:w-[min(68vw,32rem)]">
               <div data-hero-ring className="absolute inset-0">
                 <OrbitRing
                   half="back"
@@ -240,7 +240,7 @@ export function HeroSection() {
           height={1000}
           decoding="async"
           fetchPriority="low"
-          className="invisible absolute bottom-0 left-1/2 w-[min(160svh,230vw)] max-w-none -translate-x-1/2 origin-bottom select-none"
+          className="invisible absolute bottom-0 left-1/2 w-[150vw] max-w-none sm:w-[min(160svh,230vw)] -translate-x-1/2 origin-bottom select-none"
         />
 
         {/* Title card at the bottom of the dive */}
