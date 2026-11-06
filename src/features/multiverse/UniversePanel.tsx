@@ -78,6 +78,7 @@ export function UniversePanel({ detail, onSelect, onClose, className }: Universe
                   <CharacterArt
                     character={c}
                     decorative
+                    sizes="96px"
                     className="aspect-square w-full grayscale transition-[filter] duration-300 group-hover:grayscale-0"
                   />
                   <span className="truncate font-display text-[0.8rem] uppercase leading-tight group-hover:text-red-bright">
@@ -93,7 +94,7 @@ export function UniversePanel({ detail, onSelect, onClose, className }: Universe
 
       {characters.length === 0 ? (
         <p className="border-l-2 border-line pl-4 text-sm leading-snug text-mute">
-          No character files are assigned to this reality yet — the archive files characters under the reality
+          No character files are assigned to this reality yet. The archive files characters under the reality
           where they first appeared, which for most of them is Earth-616.
         </p>
       ) : null}

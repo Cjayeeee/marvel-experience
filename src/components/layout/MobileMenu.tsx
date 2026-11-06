@@ -99,11 +99,8 @@ export function MobileMenu() {
         </ul>
 
         <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 font-mono text-[0.78rem] uppercase tracking-[0.12em]">
-          <Link to="/login" onClick={closeMenu} className="underline-offset-4 hover:underline">
-            Sign in
-          </Link>
-          <Link to="/signup" onClick={closeMenu} className="underline-offset-4 hover:underline">
-            Create account
+          <Link to="/me" onClick={closeMenu} className="underline-offset-4 hover:underline">
+            My archive
           </Link>
         </div>
       </nav>

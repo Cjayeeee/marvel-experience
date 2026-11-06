@@ -28,7 +28,7 @@ function monogram(label: string): string {
 }
 
 /**
- * Stand-in for licensed artwork (TMDB / Marvel API images arrive in M3/M5).
+ * Stand-in shown when a character has no artwork or a poster can't load.
  * Also the permanent fallback when an image is missing or fails to load.
  */
 export function ArtworkSlot({
@@ -47,7 +47,7 @@ export function ArtworkSlot({
       )}
       {...(decorative
         ? { 'aria-hidden': true }
-        : { role: 'img', 'aria-label': `${label} — artwork placeholder` })}
+        : { role: 'img', 'aria-label': `${label}: artwork placeholder` })}
     >
       <div className="halftone absolute inset-0 -z-10 opacity-[0.16]" />
       <span

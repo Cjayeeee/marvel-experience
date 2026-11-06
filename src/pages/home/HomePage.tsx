@@ -18,7 +18,7 @@ export function HomePage() {
 
   return (
     <div ref={root}>
-      <title>Marvel: Multiverse — Every Universe. Every Hero. Every Possibility.</title>
+      <title>Marvel: Multiverse | Every Universe. Every Hero. Every Possibility.</title>
       <HeroSection />
       <FeaturedHeroesSection />
       <ManifestoSection />

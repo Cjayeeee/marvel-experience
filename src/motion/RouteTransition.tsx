@@ -5,7 +5,7 @@ import { prefersReducedMotion } from './tokens'
 
 /**
  * Signature page transition: on every new page the screen starts shut, a red
- * slit opens across the middle, and the two halves part like doors —
+ * slit opens across the middle, and the two halves part like doors:
  * the same gesture that ends the intro.
  */
 export function RouteTransition() {

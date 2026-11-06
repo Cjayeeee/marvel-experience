@@ -1,4 +1,4 @@
-/** Domain types for the character archive. Mirrors the Supabase schema planned for M6. */
+/** Domain types for the character archive. Shaped so they can map onto database tables later. */
 
 export type CharacterCategory = 'hero' | 'villain' | 'antihero'
 
@@ -35,7 +35,7 @@ export type Character = {
   bio: string
   origin: string
   firstAppearance: FirstAppearance
-  /** A few notable screen appearances — not an exhaustive filmography. */
+  /** A few notable screen appearances, not an exhaustive filmography. */
   screen: ScreenAppearance[]
   /** Slugs of closely connected characters (allies, rivals, variants). */
   related: string[]
@@ -70,6 +70,14 @@ export type Crossing = {
   kind: 'comic' | 'film' | 'series'
   summary: string
 }
+
+/** The six rated attributes, in display order. */
+export const POWER_ATTRIBUTES = ['intelligence', 'strength', 'speed', 'durability', 'energy', 'fighting'] as const
+
+export type PowerAttribute = (typeof POWER_ATTRIBUTES)[number]
+
+/** Editorial 1–7 estimates (src/data/curated/ratings.ts), not official figures. */
+export type PowerRatings = Record<PowerAttribute, number>
 
 export type Team = {
   slug: string

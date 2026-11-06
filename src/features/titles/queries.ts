@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { getTitleDetails, OmdbError, OmdbKeyMissingError } from '@/services/omdb.service'
 import {
   getAdjacentTitles,
@@ -6,6 +6,7 @@ import {
   getLatestTitles,
   getTimeline,
   getTitle,
+  getTitlesByIds,
   listTitles,
   type TimelineOrder,
   type TitleQuery,
@@ -18,6 +19,15 @@ export function useTitles(query: TitleQuery) {
 
 export function useTitle(id: string) {
   return useQuery({ queryKey: ['titles', 'detail', id], queryFn: () => getTitle(id) })
+}
+
+/** Titles for saved ids, e.g. favourites, kept in the given order. */
+export function useTitlesByIds(ids: string[]) {
+  return useQuery({
+    queryKey: ['titles', 'by-ids', ids],
+    queryFn: () => getTitlesByIds(ids),
+    placeholderData: keepPreviousData,
+  })
 }
 
 export function useTimeline(order: TimelineOrder) {

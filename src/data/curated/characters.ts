@@ -3,7 +3,7 @@ import type { Character } from '@/types/character'
 /**
  * The curated character archive.
  *
- * Source of truth until Supabase arrives in Milestone 6 (it becomes the seed).
+ * Source of truth for now; if a database is added later, this becomes its seed data.
  * Biographies are written for this project. First appearances, performers and
  * years are long-established public facts; screen lists are notable
  * appearances, not complete filmographies. Marvel's public API was retired in
@@ -59,7 +59,7 @@ export const characters: Character[] = [
     teams: ['avengers'],
     powers: ['Godlike strength', 'Control of lightning and storms', 'Mjolnir', 'Flight'],
     bio: 'The Asgardian god of thunder and heir to Odin’s throne. Arrogant in his youth, he learned humility on Earth and has defended both realms ever since.',
-    origin: 'Odin cast his son to Earth without his powers to teach him humility; worthiness restored the hammer — and the god.',
+    origin: 'Odin cast his son to Earth without his powers to teach him humility; worthiness restored the hammer, and the god.',
     firstAppearance: { title: 'Journey into Mystery #83', year: 1962, medium: 'comic' },
     screen: [
       { title: 'Thor', year: 2011, kind: 'film', actor: 'Chris Hemsworth' },
@@ -77,7 +77,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: ['avengers', 'defenders'],
     powers: ['Strength that grows with rage', 'Regeneration', 'Thunderclap shockwaves', 'Near invulnerability'],
-    bio: 'A brilliant, guarded scientist who shares his life with a creature of pure fury. The Hulk is the strongest there is — and Banner is forever negotiating with him.',
+    bio: 'A brilliant, guarded scientist who shares his life with a creature of pure fury. The Hulk is the strongest there is, and Banner is forever negotiating with him.',
     origin: 'Bruce Banner was caught in the blast of his own gamma bomb while saving a teenager who had wandered onto the test site.',
     firstAppearance: { title: 'The Incredible Hulk #1', year: 1962, medium: 'comic' },
     screen: [
@@ -114,7 +114,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: ['avengers'],
     powers: ['Unerring archery', 'Trick arrows', 'Acrobatics', 'Close-quarters combat'],
-    bio: 'A former circus performer with no powers and perfect aim. Clint Barton is the Avenger who proves an ordinary person can stand with gods — if he never misses.',
+    bio: 'A former circus performer with no powers and perfect aim. Clint Barton is the Avenger who proves an ordinary person can stand with gods, as long as he never misses.',
     origin: 'Trained by circus criminals, Clint started out on the wrong side of the law before joining the Avengers.',
     firstAppearance: { title: 'Tales of Suspense #57', year: 1964, medium: 'comic' },
     screen: [
@@ -132,7 +132,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: ['avengers'],
     powers: ['Spider-strength and agility', 'Wall-crawling', 'Spider-sense', 'Self-built web-shooters'],
-    bio: 'A science-minded kid from Queens who learned that with great power comes great responsibility. Juggles rent, school and saving the city — rarely all at once.',
+    bio: 'A science-minded kid from Queens who learned that with great power comes great responsibility. Juggles rent, school and saving the city, rarely all at once.',
     origin: 'Bitten by a radioactive spider, Peter used his powers for himself until a burglar he let escape killed his Uncle Ben.',
     firstAppearance: { title: 'Amazing Fantasy #15', year: 1962, medium: 'comic' },
     screen: [
@@ -169,7 +169,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: ['avengers'],
     powers: ['Chaos magic', 'Reality warping', 'Telekinesis', 'Hex bolts'],
-    bio: 'One of the most powerful beings in the multiverse, and one of the most haunted. Wanda began on the wrong side before becoming an Avenger — her grief has reshaped reality more than once.',
+    bio: 'One of the most powerful beings in the multiverse, and one of the most haunted. Wanda began on the wrong side before becoming an Avenger. Her grief has reshaped reality more than once.',
     origin: 'Wanda first fought alongside her brother Pietro in Magneto’s Brotherhood before reforming and joining the Avengers.',
     firstAppearance: { title: 'X-Men #4', year: 1964, medium: 'comic' },
     screen: [
@@ -224,7 +224,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: ['avengers'],
     powers: ['Density control', 'Solar-powered energy beams', 'Flight', 'Synthetic intellect'],
-    bio: 'A synthetic man built to destroy the Avengers who chose instead to join them. Vision spends his life asking what it means to be human — and often answers better than humans do.',
+    bio: 'A synthetic man built to destroy the Avengers who chose instead to join them. Vision spends his life asking what it means to be human, and often answers better than humans do.',
     origin: 'Created by Ultron as a weapon, Vision rebelled against his maker and turned to the heroes.',
     firstAppearance: { title: 'Avengers #57', year: 1968, medium: 'comic' },
     screen: [
@@ -394,7 +394,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: ['x-men', 'avengers'],
     powers: ['Healing factor', 'Adamantium skeleton and claws', 'Heightened senses', 'Longevity'],
-    bio: 'The best there is at what he does — and what he does isn’t very nice. A centuries-old mutant soldier with a fractured memory and a fierce sense of loyalty.',
+    bio: 'The best there is at what he does, and what he does isn’t very nice. A centuries-old mutant soldier with a fractured memory and a fierce sense of loyalty.',
     origin: 'A mutant with a healing factor, Logan had his skeleton laced with indestructible adamantium by the secret Weapon X program.',
     firstAppearance: { title: 'The Incredible Hulk #180', year: 1974, medium: 'comic' },
     screen: [
@@ -478,7 +478,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: ['fantastic-four'],
     powers: ['Elastic body', 'Among the smartest people alive'],
-    bio: 'A scientist of limitless curiosity and the leader of Marvel’s first family. Reed can stretch his body as far as his imagination — which is a long way.',
+    bio: 'A scientist of limitless curiosity and the leader of Marvel’s first family. Reed can stretch his body as far as his imagination, which is a long way.',
     origin: 'Reed led an unauthorised space flight that was bombarded by cosmic rays, transforming all four passengers.',
     firstAppearance: { title: 'Fantastic Four #1', year: 1961, medium: 'comic' },
     screen: [{ title: 'The Fantastic Four: First Steps', year: 2025, kind: 'film', actor: 'Pedro Pascal' }],
@@ -735,7 +735,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: [],
     powers: ['Genius inventor', 'Sorcery', 'Armored suit', 'Monarch of Latveria'],
-    bio: 'Scientist, sorcerer and absolute ruler of Latveria. Doom believes only he can save humanity from itself — and that it should thank him for the privilege.',
+    bio: 'Scientist, sorcerer and absolute ruler of Latveria. Doom believes only he can save humanity from itself, and that it should thank him for the privilege.',
     origin: 'Scarred by a failed experiment he blamed on Reed Richards, Victor forged his armor and returned to conquer his homeland.',
     firstAppearance: { title: 'Fantastic Four #5', year: 1962, medium: 'comic' },
     screen: [{ title: 'Fantastic Four', year: 2005, kind: 'film', actor: 'Julian McMahon' }],
@@ -768,7 +768,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: [],
     powers: ['Sorcery', 'Shape-shifting', 'Illusions', 'Master manipulator'],
-    bio: 'The god of mischief, Thor’s adopted brother and his most persistent problem. Loki’s schemes change shape as often as he does — and so, lately, does his conscience.',
+    bio: 'The god of mischief, Thor’s adopted brother and his most persistent problem. Loki’s schemes change shape as often as he does. Lately, so does his conscience.',
     origin: 'A Frost Giant infant taken by Odin after a war, Loki grew up in Thor’s shadow and resented every moment of it.',
     firstAppearance: { title: 'Journey into Mystery #85', year: 1962, medium: 'comic' },
     screen: [
@@ -787,7 +787,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: [],
     powers: ['Time travel', 'Future technology', 'Military genius'],
-    bio: 'A conqueror from the 31st century who rules across time itself. Countless variants of Kang exist — and most of them are at war with each other.',
+    bio: 'A conqueror from the 31st century who rules across time itself. Countless variants of Kang exist, and most of them are at war with each other.',
     origin: 'A scholar from the far future, Nathaniel Richards discovered time travel and decided history was his to rule.',
     firstAppearance: { title: 'Avengers #8', year: 1964, medium: 'comic' },
     screen: [{ title: 'Ant-Man and the Wasp: Quantumania', year: 2023, kind: 'film', actor: 'Jonathan Majors' }],
@@ -865,7 +865,7 @@ export const characters: Character[] = [
     universe: 'earth-616',
     teams: [],
     powers: ['Goblin formula strength', 'Goblin glider', 'Pumpkin bombs', 'Ruthless intellect'],
-    bio: 'Industrialist Norman Osborn, driven mad by his own formula. The Goblin is Spider-Man’s most personal enemy — he knows where Peter lives.',
+    bio: 'Industrialist Norman Osborn, driven mad by his own formula. The Goblin is Spider-Man’s most personal enemy: he knows where Peter lives.',
     origin: 'Norman tested an unstable strength formula on himself; it worked, at the cost of his sanity.',
     firstAppearance: { title: 'The Amazing Spider-Man #14', year: 1964, medium: 'comic' },
     screen: [
@@ -960,7 +960,7 @@ export const characters: Character[] = [
     universe: 'earth-1610',
     teams: [],
     powers: ['Spider-powers', 'Venom strike', 'Camouflage', 'Spider-sense'],
-    bio: 'A Brooklyn teenager who took up the Spider-Man mantle in the Ultimate Universe. Miles proved that anyone can wear the mask — and later made the prime Earth his home too.',
+    bio: 'A Brooklyn teenager who took up the Spider-Man mantle in the Ultimate Universe. Miles proved that anyone can wear the mask, and later made the prime Earth his home too.',
     origin: 'Bitten by a genetically engineered spider, Miles gained powers that differed from Peter Parker’s in surprising ways.',
     firstAppearance: { title: 'Ultimate Fallout #4', year: 2011, medium: 'comic' },
     screen: [
@@ -978,7 +978,7 @@ export const characters: Character[] = [
     universe: 'earth-65',
     teams: [],
     powers: ['Spider-powers', 'Spider-sense', 'Dimensional travel watch'],
-    bio: 'In her world, Gwen was bitten instead of Peter — and drums in a band when she isn’t wanted by the police. A fan favourite who swung out of a one-shot and into the multiverse.',
+    bio: 'In her world, Gwen was bitten instead of Peter, and she drums in a band when she isn’t wanted by the police. A fan favourite who swung out of a one-shot and into the multiverse.',
     origin: 'Bitten by a radioactive spider on Earth-65, Gwen became a hero hunted by her own police-captain father.',
     firstAppearance: { title: 'Edge of Spider-Verse #2', year: 2014, medium: 'comic' },
     screen: [
@@ -1029,7 +1029,7 @@ export const characters: Character[] = [
     teams: [],
     powers: ['Healing factor (slowed by age)', 'Adamantium claws', 'Survival instincts'],
     bio: 'An older Logan from a wasteland ruled by villains, who laid down his claws for decades after a terrible night. When he unsheathes them again, the world shakes.',
-    origin: 'Tricked into killing his own teammates, Logan swore never to pop his claws again — until he had no choice.',
+    origin: 'Tricked into killing his own teammates, Logan swore never to pop his claws again, until he had no choice.',
     firstAppearance: { title: 'Wolverine #66', year: 2008, medium: 'comic' },
     screen: [],
     related: ['wolverine'],

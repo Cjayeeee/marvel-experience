@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query'
 
-/** One cache for all server data (curated today, Supabase/TMDB later). */
+/** One cache for all server data (curated data, OMDb, and a database later). */
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

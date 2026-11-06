@@ -24,7 +24,7 @@ const copy: Record<TitleKind, { lead: string; accent: string; file: string; othe
   series: { lead: 'Every', accent: 'Episode', file: 'Screenings · Series', other: { to: '/movies', label: '← Films' } },
 }
 
-/** /movies and /series — the catalogue as a poster wall. */
+/** /movies and /series: the catalogue as a poster wall. */
 export function TitlesPage({ kind }: { kind: TitleKind }) {
   const root = useRef<HTMLDivElement>(null)
   useReveals(root)
@@ -62,7 +62,7 @@ export function TitlesPage({ kind }: { kind: TitleKind }) {
 
   return (
     <div ref={root}>
-      <title>{`${kind === 'film' ? 'Movies' : 'Series'} — Multiverse`}</title>
+      <title>{`${kind === 'film' ? 'Movies' : 'Series'} | Multiverse`}</title>
 
       <section className="paper-grain bg-paper pt-28 pb-12 text-ink sm:pt-36 sm:pb-16">
         <Container className="flex flex-col gap-10">

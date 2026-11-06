@@ -1,7 +1,7 @@
 import type { Crossing } from '@/types/character'
 
 /**
- * Documented crossings between realities — stories in which characters
+ * Documented crossings between realities: stories in which characters
  * travelled from one universe to another. Each one is a published story or
  * released film; summaries are written for this archive.
  */
@@ -40,7 +40,7 @@ export const crossings: Crossing[] = [
     event: 'Old Man Logan',
     year: 2016,
     kind: 'comic',
-    summary: 'After Secret Wars, the Wastelands’ Logan finds himself in the past of the main universe — a world where his worst night hasn’t happened yet.',
+    summary: 'After Secret Wars, the Wastelands’ Logan finds himself in the past of the main universe: a world where his worst night hasn’t happened yet.',
   },
   {
     id: 'into-the-spider-verse',

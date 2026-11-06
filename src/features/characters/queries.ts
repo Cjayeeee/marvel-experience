@@ -1,8 +1,10 @@
 import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import {
   getAdjacentCharacters,
+  getAllCharacters,
   getCharacter,
   getCharacterFacets,
+  getCharactersBySlugs,
   getRelatedCharacters,
   getTeammates,
   listCharacters,
@@ -25,6 +27,20 @@ export function useCharacterSearch(query: CharacterQuery) {
     initialPageParam: 0,
     getNextPageParam: (last) => last.nextPage,
     // Keep showing the previous results while a new filter loads.
+    placeholderData: keepPreviousData,
+  })
+}
+
+/** Every character A–Z, for pickers. */
+export function useAllCharacters() {
+  return useQuery({ queryKey: ['characters', 'all'], queryFn: getAllCharacters, staleTime: Infinity })
+}
+
+/** Characters for saved slugs, e.g. favourites, kept in the given order. */
+export function useCharactersBySlugs(slugs: string[]) {
+  return useQuery({
+    queryKey: ['characters', 'by-slugs', slugs],
+    queryFn: () => getCharactersBySlugs(slugs),
     placeholderData: keepPreviousData,
   })
 }

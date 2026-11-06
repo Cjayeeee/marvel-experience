@@ -1,6 +1,6 @@
 /**
- * Portal sphere shader: Earth-616 in black and white — continents and drifting
- * clouds from a packed texture (R = land/sea, G = clouds) — with screen-space
+ * Portal sphere shader: Earth-616 in black and white (continents and drifting
+ * clouds from a packed texture, R = land/sea, G = clouds) with screen-space
  * halftone shading (the site's print texture), a red rim light, and a
  * violet/cyan portal swirl on the face that opens up as the user dives in.
  * Colours are written in display space (Canvas runs `linear flat`).

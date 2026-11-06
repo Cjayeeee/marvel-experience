@@ -1,23 +1,23 @@
 import type { Title, TitleDetails } from '@/types/title'
 
 /**
- * OMDb client (https://www.omdbapi.com). Data is CC BY-NC 4.0 — credited in
- * the footer and on title pages.
+ * OMDb details, fetched through the site's own /api/omdb function
+ * (api/omdb.ts). The key stays on the server: OMDB_API_KEY in .env.local for
+ * `npm run dev`, or in the Vercel project settings for the live site.
+ * Data is CC BY-NC 4.0, credited in the footer and on title pages.
  *
- * The key comes from VITE_OMDB_API_KEY in .env.local. In Milestone 6 this
- * moves behind a Supabase Edge Function so the key never reaches the browser.
- *
- * Responses are cached in localStorage for a week: the free tier allows
- * 1,000 requests a day, and catalogue data rarely changes.
+ * Answers are also cached in localStorage for a week, on top of Vercel's
+ * shared CDN cache, so revisits cost no requests at all.
  */
 
-const ENDPOINT = 'https://www.omdbapi.com/'
-const CACHE_PREFIX = 'mm:omdb:v1:'
+const ENDPOINT = '/api/omdb'
+const CACHE_PREFIX = 'mm:omdb:v2:'
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000
 
+/** The server has no OMDB_API_KEY configured. */
 export class OmdbKeyMissingError extends Error {
   constructor() {
-    super('No OMDb API key configured. Add VITE_OMDB_API_KEY to .env.local and restart the dev server.')
+    super('The server has no OMDb key. Set OMDB_API_KEY (in .env.local, or in your Vercel project settings).')
     this.name = 'OmdbKeyMissingError'
   }
 }
@@ -32,10 +32,6 @@ export class OmdbError extends Error {
     this.name = 'OmdbError'
     this.reason = reason
   }
-}
-
-export function hasOmdbKey(): boolean {
-  return Boolean(import.meta.env.VITE_OMDB_API_KEY)
 }
 
 type RawOmdb = Record<string, unknown> & { Response?: string; Error?: string }
@@ -79,41 +75,30 @@ function normalizeDetails(raw: RawOmdb): TitleDetails {
   }
 }
 
-/** Compare titles loosely: case, punctuation and a leading "The" don't matter. */
-function sameTitle(a: string, b: string): boolean {
-  const n = (s: string) =>
-    s
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .toLowerCase()
-      .replace(/^the\s+/, '')
-      .replace(/[^a-z0-9]/g, '')
-  const x = n(a)
-  const y = n(b)
-  return x === y || x.startsWith(y) || y.startsWith(x)
-}
-
-async function request(params: Record<string, string>): Promise<RawOmdb> {
-  const key = import.meta.env.VITE_OMDB_API_KEY
-  if (!key) throw new OmdbKeyMissingError()
-  const url = new URL(ENDPOINT)
-  for (const [k, v] of Object.entries({ ...params, apikey: key })) url.searchParams.set(k, v)
-
+async function request(id: string): Promise<RawOmdb> {
   let response: Response
   try {
-    response = await fetch(url)
+    response = await fetch(`${ENDPOINT}?id=${encodeURIComponent(id)}`)
   } catch {
-    throw new OmdbError('Could not reach OMDb. Check your connection.', 'network')
+    throw new OmdbError('Could not reach the site. Check your connection.', 'network')
   }
-  // OMDb answers 401 for a bad key; the body still carries the error.
-  const raw = (await response.json().catch(() => ({}))) as RawOmdb
-  if (raw.Response === 'False') {
-    const message = raw.Error ?? 'Unknown OMDb error'
-    if (/invalid api key|no api key/i.test(message)) throw new OmdbError(message, 'key')
-    if (/limit/i.test(message)) throw new OmdbError(message, 'quota')
-    throw new OmdbError(message, 'not-found')
+  const raw = (await response.json().catch(() => ({}))) as RawOmdb & { code?: string }
+  if (raw.Response === 'False' || !response.ok) {
+    const message = raw.Error ?? `OMDb proxy responded with ${response.status}`
+    switch (raw.code) {
+      case 'key-missing':
+        throw new OmdbKeyMissingError()
+      case 'key':
+        throw new OmdbError(message, 'key')
+      case 'quota':
+        throw new OmdbError(message, 'quota')
+      case 'not-found':
+      case 'bad-request':
+        throw new OmdbError(message, 'not-found')
+      default:
+        throw new OmdbError(message, 'network')
+    }
   }
-  if (!response.ok) throw new OmdbError(`OMDb responded with ${response.status}`, 'network')
   return raw
 }
 
@@ -136,28 +121,11 @@ function writeCache(id: string, data: TitleDetails) {
   }
 }
 
-/**
- * Details for a catalogue title. Looks up by IMDb id and checks the returned
- * title actually matches; if not (or no id is known), searches by title + year.
- */
+/** Details for a catalogue title (the server picks the right OMDb lookup). */
 export async function getTitleDetails(title: Title): Promise<TitleDetails> {
   const cached = readCache(title.id)
   if (cached) return cached
-
-  const type = title.kind === 'film' ? 'movie' : 'series'
-  let details: TitleDetails | null = null
-
-  if (title.imdbId) {
-    const byId = normalizeDetails(await request({ i: title.imdbId, plot: 'full' }))
-    if (sameTitle(byId.title, title.title)) details = byId
-    else console.warn(`[omdb] ${title.imdbId} returned "${byId.title}", expected "${title.title}" — searching by title`)
-  }
-
-  if (!details) {
-    const year = title.releaseDate.slice(0, 4)
-    details = normalizeDetails(await request({ t: title.title, y: year, type, plot: 'full' }))
-  }
-
+  const details = normalizeDetails(await request(title.id))
   writeCache(title.id, details)
   return details
 }

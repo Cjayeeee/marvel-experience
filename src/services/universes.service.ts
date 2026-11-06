@@ -4,7 +4,7 @@ import { universeById, universes } from '@/data/curated/universes'
 import type { Character, Crossing, Universe } from '@/types/character'
 
 /**
- * Universe data access (async, Supabase-ready — see characters.service).
+ * Universe data access (async and database-ready; see characters.service).
  */
 
 export type UniverseSummary = Universe & { characterCount: number; crossingCount: number }

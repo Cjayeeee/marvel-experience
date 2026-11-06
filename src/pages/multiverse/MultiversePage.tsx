@@ -17,7 +17,7 @@ const MultiverseScene = lazy(() => import('@/three/scenes/multiverseMap/Multiver
 
 const MEDIA: UniverseMedium[] = ['comics', 'screen', 'both']
 
-/** /multiverse — navigable 3D map of realities (2D blueprint fallback). */
+/** /multiverse: navigable 3D map of realities (2D blueprint fallback). */
 export function MultiversePage() {
   const [params, setParams] = useSearchParams()
   const selectedId = params.get('u')
@@ -83,7 +83,7 @@ export function MultiversePage() {
 
   return (
     <div className="bg-void text-bone">
-      <title>{`${detail.data ? `${detail.data.universe.designation} — ` : ''}Multiverse Map — Multiverse`}</title>
+      <title>{`${detail.data ? `${detail.data.universe.designation} · ` : ''}Multiverse Map | Multiverse`}</title>
 
       <section aria-labelledby="multiverse-title" className="relative lg:h-[100svh] lg:min-h-[44rem]">
         {/* Stage: 3D canvas or 2D blueprint */}

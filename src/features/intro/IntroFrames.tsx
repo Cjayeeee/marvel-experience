@@ -2,7 +2,7 @@
  * The "image" cuts between intro words. All drawn in code from the site's own
  * visual language, and deliberately dark: every frame stays close to black in
  * brightness so the cut rhythm never becomes a photosensitive flash.
- * (Later these can be swapped for darkened TMDB backdrops.)
+ * (Later these can be swapped for darkened film stills.)
  */
 
 export function FrameSphere() {

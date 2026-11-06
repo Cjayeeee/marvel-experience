@@ -30,7 +30,7 @@ export function SiteFooter() {
         <div className="flex max-w-sm flex-col gap-5">
           <OrbitMark className="size-10" />
           <p className="text-[0.95rem] leading-relaxed text-mute">
-            An archive of every reality, every hero and every possibility — built
+            An archive of every reality, every hero and every possibility, built
             by a fan, for fans.
           </p>
         </div>
@@ -61,9 +61,14 @@ export function SiteFooter() {
           Unofficial fan project. Not affiliated with, endorsed or sponsored by
           Marvel Entertainment or The Walt Disney Company.
         </p>
-        <p className="shrink-0 font-mono text-[0.7rem] uppercase tracking-[0.12em]">
-          Film data: <a href="https://www.omdbapi.com/" target="_blank" rel="noreferrer" className="underline-offset-4 hover:underline">OMDb API</a> (CC BY-NC 4.0) · Non-commercial
-        </p>
+        <div className="flex shrink-0 flex-col gap-1.5 font-mono text-[0.7rem] uppercase tracking-[0.12em] sm:items-end">
+          <p>
+            Film data: <a href="https://www.omdbapi.com/" target="_blank" rel="noreferrer" className="underline-offset-4 hover:underline">OMDb API</a> (CC BY-NC 4.0) · Non-commercial
+          </p>
+          <p>
+            Earth texture: <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noreferrer" className="underline-offset-4 hover:underline">Solar System Scope</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer" className="underline-offset-4 hover:underline">CC BY 4.0</a>) · Adapted to halftone
+          </p>
+        </div>
       </Container>
 
       {/* Planet arc + cropped wordmark (Orbita's closing gesture) */}

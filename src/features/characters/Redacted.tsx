@@ -7,7 +7,7 @@ type RedactedProps = {
 }
 
 /**
- * Paragraph that starts "redacted" — each line under an ink bar — and is
+ * Paragraph that starts "redacted" (each line under an ink bar) and is
  * declassified line by line as it scrolls into view. Plain text for
  * reduced-motion users and without JavaScript.
  */

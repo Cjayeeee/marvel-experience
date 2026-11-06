@@ -2,6 +2,7 @@ import { Fragment, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Typography'
+import { libraryActions, useLibrary, useWatchStatus } from '@/features/library/useLibrary'
 import { OmdbNotice } from '@/features/titles/OmdbNotice'
 import { useTimeline } from '@/features/titles/queries'
 import { TitlePoster } from '@/features/titles/TitlePoster'
@@ -19,7 +20,7 @@ const BADGES = {
   scheduled: { label: 'Scheduled', className: 'border-red bg-red text-white' },
 } as const
 
-/** /timeline — the MCU in release order or story order, phase by phase. */
+/** /timeline: the MCU in release order or story order, phase by phase. */
 export function TimelinePage() {
   const [params, setParams] = useSearchParams()
   const order: TimelineOrder = params.get('order') === 'chronological' ? 'chronological' : 'release'
@@ -76,7 +77,7 @@ export function TimelinePage() {
 
   return (
     <div className="bg-void text-bone">
-      <title>{`MCU Timeline (${order === 'release' ? 'release order' : 'story order'}) — Multiverse`}</title>
+      <title>{`MCU Timeline (${order === 'release' ? 'release order' : 'story order'}) | Multiverse`}</title>
 
       <section className="paper-grain bg-paper pt-28 pb-12 text-ink sm:pt-36 sm:pb-16">
         <Container className="flex flex-col gap-10">
@@ -111,7 +112,7 @@ export function TimelinePage() {
             <p className="max-w-md text-[0.95rem] leading-relaxed text-ink-mute">
               {order === 'release'
                 ? 'Every film and series in the order audiences saw them, grouped by phase.'
-                : 'The order events happen in the story — Marvel Studios’ own Disney+ timeline. Titles it leaves out are placed by fans and labelled.'}
+                : 'The order events happen in the story, following Marvel Studios’ own Disney+ timeline. Titles it leaves out are placed by fans and labelled.'}
             </p>
           </div>
 
@@ -127,11 +128,19 @@ export function TimelinePage() {
 
       <section aria-label={order === 'release' ? 'Release order' : 'Story order'} className="py-16 sm:py-24">
         <Container className="flex flex-col gap-10">
+          <WatchProgress items={items} order={order} />
           <OmdbNotice error={omdbError} />
 
           <ol ref={list} className="relative flex flex-col gap-4 md:gap-0">
             {/* Spine */}
             <span aria-hidden="true" className="absolute top-0 bottom-0 left-[1.15rem] w-px bg-line md:left-1/2" />
+            {isPending
+              ? Array.from({ length: 8 }, (_, i) => (
+                  <li key={`skeleton-${i}`} aria-hidden="true" className="relative grid grid-cols-[2.3rem_minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_3rem_minmax(0,1fr)] md:py-3">
+                    <span className={cn('col-start-2 ml-3 h-[7.25rem] animate-pulse border border-line bg-void-raised md:ml-0', i % 2 ? 'md:col-start-3 md:ml-4' : 'md:col-start-1 md:mr-4')} />
+                  </li>
+                ))
+              : null}
             {items.map((t, i) => {
               const showPhase = order === 'release' && (i === 0 || items[i - 1]?.phase !== t.phase)
               return (
@@ -176,6 +185,7 @@ function TimelineEntry({
   highlighted: boolean
 }) {
   const badge = title.scheduled ? BADGES.scheduled : title.placement === 'fan' ? BADGES.fan : null
+  const watched = useWatchStatus(title.id) === 'watched'
   return (
     <li
       id={title.id}
@@ -184,16 +194,30 @@ function TimelineEntry({
         'relative grid grid-cols-[2.3rem_minmax(0,1fr)] items-center md:grid-cols-[minmax(0,1fr)_3rem_minmax(0,1fr)] md:py-3',
       )}
     >
-      {/* Node on the spine */}
-      <span
-        aria-hidden="true"
+      {/* Node on the spine: tick it off as watched */}
+      <button
+        type="button"
+        aria-pressed={watched}
+        aria-label={`${String(number).padStart(2, '0')} ${title.title}: watched`}
+        title={title.scheduled ? 'Not released yet' : watched ? 'Watched · click to undo' : 'Mark as watched'}
+        disabled={Boolean(title.scheduled)}
+        onClick={() => libraryActions.setWatchStatus(title.id, watched ? null : 'watched')}
         className={cn(
-          'relative z-10 col-start-1 row-start-1 flex size-9 items-center justify-center rounded-full border bg-void font-mono text-[0.68rem] md:col-start-2 md:mx-auto',
-          title.scheduled ? 'border-red text-red-bright' : 'border-line text-mute',
+          'group/node relative z-10 col-start-1 row-start-1 flex size-9 items-center justify-center rounded-full border font-mono text-[0.68rem] transition-colors duration-300 md:col-start-2 md:mx-auto',
+          title.scheduled
+            ? 'cursor-not-allowed border-red bg-void text-red-bright'
+            : watched
+              ? 'border-bone bg-bone text-ink hover:border-red hover:bg-red hover:text-white'
+              : 'border-line bg-void text-mute hover:border-bone hover:text-bone',
         )}
       >
-        {String(number).padStart(2, '0')}
-      </span>
+        <span aria-hidden="true" className={cn(!title.scheduled && 'group-hover/node:hidden', watched && 'hidden')}>
+          {String(number).padStart(2, '0')}
+        </span>
+        <span aria-hidden="true" className={cn('text-sm', title.scheduled ? 'hidden' : watched ? 'block' : 'hidden group-hover/node:block')}>
+          ✓
+        </span>
+      </button>
 
       <Link
         to={`/titles/${title.id}`}
@@ -222,5 +246,57 @@ function TimelineEntry({
         </div>
       </Link>
     </li>
+  )
+}
+
+/** How much of the timeline you've watched, and what to watch next in this order. */
+function WatchProgress({ items, order }: { items: Title[]; order: TimelineOrder }) {
+  const watchlist = useLibrary((s) => s.library.watchlist)
+  const ready = useLibrary((s) => s.status === 'ready')
+  const released = items.filter((t) => !t.scheduled)
+  const watched = released.filter((t) => watchlist[t.id]?.status === 'watched').length
+  const next = released.find((t) => watchlist[t.id]?.status !== 'watched')
+  // Always render the box (with dashes until data arrives) so the list below never jumps.
+  const loaded = ready && released.length > 0
+  const pct = loaded ? Math.round((watched / released.length) * 100) : 0
+
+  return (
+    <div className="flex flex-col gap-4 border border-line bg-void-raised p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+      <div className="flex min-w-0 flex-1 flex-col gap-3">
+        <p className="flex items-baseline gap-3">
+          <span className="font-display text-4xl leading-none">
+            {loaded ? watched : '–'}
+            <span className="text-mute">/{loaded ? released.length : '–'}</span>
+          </span>
+          <Eyebrow as="span" className="text-mute">released titles watched</Eyebrow>
+        </p>
+        <div
+          role="progressbar"
+          aria-label="Titles watched"
+          aria-valuemin={0}
+          aria-valuemax={released.length || 1}
+          aria-valuenow={watched}
+          className="h-1.5 w-full overflow-hidden bg-line"
+        >
+          <div className="h-full bg-red transition-[width] duration-700 ease-(--ease-cinematic)" style={{ width: `${pct}%` }} />
+        </div>
+        <p className="text-sm text-mute">
+          {watched === 0 ? 'Tap a number on the timeline to tick a title off as watched.' : 'Tap a ticked number to undo it.'}
+        </p>
+      </div>
+      {!loaded ? (
+        <div aria-hidden="true" className="h-14 w-56 shrink-0 border-l-2 border-line" />
+      ) : next ? (
+        <Link
+          to={`/titles/${next.id}`}
+          className="group flex shrink-0 flex-col gap-1 border-l-2 border-red pl-4 sm:max-w-[18rem]"
+        >
+          <Eyebrow className="text-red-bright">Next up · {order === 'release' ? 'release order' : 'story order'}</Eyebrow>
+          <span className="font-display text-xl uppercase leading-tight group-hover:text-red-bright">{next.title}</span>
+        </Link>
+      ) : (
+        <Eyebrow className="text-red-bright">Every released title watched. Respect.</Eyebrow>
+      )}
+    </div>
   )
 }

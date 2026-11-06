@@ -17,7 +17,7 @@ import {
 import { cn } from '@/lib/cn'
 import { useReveals } from '@/motion/useReveals'
 
-/** /characters — "The Archive": search, filter and browse every file. */
+/** /characters ("The Archive"): search, filter and browse every file. */
 export function CharactersPage() {
   const root = useRef<HTMLDivElement>(null)
   useReveals(root)
@@ -63,7 +63,7 @@ export function CharactersPage() {
 
   return (
     <div ref={root}>
-      <title>The Archive — Multiverse</title>
+      <title>The Archive | Multiverse</title>
 
       {/* Header */}
       <section className="paper-grain bg-paper pt-28 pb-12 text-ink sm:pt-36 sm:pb-16">
@@ -211,6 +211,7 @@ export function CharactersPage() {
               </div>
             ) : (
               <>
+                <h2 className="sr-only">Results</h2>
                 <ul
                   className={cn(
                     'grid grid-cols-2 gap-4 transition-opacity duration-300 sm:gap-6 md:grid-cols-3 xl:grid-cols-4',

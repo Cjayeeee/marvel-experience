@@ -10,8 +10,8 @@ type OrbitRingProps = {
 
 /*
  * One continuous elliptical orbit (centre 500,200 · radii 480×120), drawn twice.
- * It starts at the top-middle — hidden behind the sphere, so the seam where the
- * text wraps is never seen — and runs anticlockwise: across the top (words
+ * It starts at the top-middle (hidden behind the sphere, so the seam where the
+ * text wraps is never seen) and runs anticlockwise: across the top (words
  * upside-down, the far side), then left → right along the bottom (words upright).
  *
  * Each copy is cut to its half with a CSS clip-path on the <svg> element itself,

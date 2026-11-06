@@ -10,13 +10,14 @@ import { categoryStyles } from '@/features/characters/categoryStyles'
 import { CharacterCard } from '@/features/characters/CharacterCard'
 import { useAdjacentCharacters, useCharacter, useRelatedCharacters } from '@/features/characters/queries'
 import { Redacted } from '@/features/characters/Redacted'
+import { FavouriteButton } from '@/features/library/FavouriteButton'
 import { cn } from '@/lib/cn'
 import { useReveals } from '@/motion/useReveals'
 import { fileNumber } from '@/services/characters.service'
 import { findTitleId } from '@/services/titles.service'
 import type { Character } from '@/types/character'
 
-/** /characters/:slug — a classified S.H.I.E.L.D.-style dossier. */
+/** /characters/:slug: a classified S.H.I.E.L.D.-style dossier. */
 export function CharacterDossierPage() {
   const { slug = '' } = useParams()
   const { data: character, isPending, isError, refetch } = useCharacter(slug)
@@ -49,7 +50,7 @@ function Dossier({ character }: { character: Character }) {
 
   return (
     <div ref={root}>
-      <title>{`${character.name}${character.alias ? ` (${character.alias})` : ''} — Multiverse`}</title>
+      <title>{`${character.name}${character.alias ? ` (${character.alias})` : ''} | Multiverse`}</title>
 
       {/* ─── Cover sheet ─── */}
       <section className="paper-grain overflow-hidden bg-paper pt-24 pb-16 text-ink sm:pt-32 sm:pb-24">
@@ -91,6 +92,7 @@ function Dossier({ character }: { character: Character }) {
                   Real name: {character.alias}
                 </p>
               ) : null}
+              <FavouriteButton kind="character" id={character.slug} name={character.name} variant="pill" tone="paper" />
 
               {/* Key facts */}
               <dl data-reveal="stagger" className="mt-4 grid grid-cols-1 border-t border-ink/25 sm:grid-cols-2">
@@ -101,7 +103,7 @@ function Dossier({ character }: { character: Character }) {
                       <span className="block text-sm text-ink-mute normal-case">{universe.name}</span>
                     </>
                   ) : (
-                    '—'
+                    'Unknown'
                   )}
                 </Fact>
                 <Fact label={character.firstAppearance.medium === 'screen' ? 'Debut (screen)' : 'First appearance'}>
@@ -135,7 +137,7 @@ function Dossier({ character }: { character: Character }) {
             {/* Portrait with stamp */}
             <div data-reveal="up" className="relative mx-auto w-full max-w-sm lg:max-w-none">
               <div className="relative rotate-[1.5deg] bg-white p-3 pb-12 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.55)]">
-                <CharacterArt character={character} priority className="aspect-[3/4] w-full" />
+                <CharacterArt character={character} priority sizes="(min-width: 1024px) 36vw, 90vw" className="aspect-[3/4] w-full" />
                 <p className="absolute right-4 bottom-3 left-4 font-mono text-[0.68rem] tracking-[0.14em] text-ink-mute uppercase">
                   Subject · {character.name}
                 </p>
@@ -322,7 +324,7 @@ function Shell({ children }: { children: ReactNode }) {
 function FileNotFound({ slug }: { slug: string }) {
   return (
     <Shell>
-      <title>File not found — Multiverse</title>
+      <title>File not found | Multiverse</title>
       <Eyebrow className="text-ink-mute">Archive search · “{slug}”</Eyebrow>
       <h1 className="font-display text-giant uppercase">
         <span className="block">File</span>

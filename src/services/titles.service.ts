@@ -54,6 +54,11 @@ export async function getTitle(id: string): Promise<Title | null> {
   return titles.find((t) => t.id === id) ?? null
 }
 
+/** Titles for a list of ids, in the same order; unknown ids are skipped. */
+export async function getTitlesByIds(ids: string[]): Promise<Title[]> {
+  return ids.flatMap((id) => titles.find((t) => t.id === id) ?? [])
+}
+
 export type TimelineOrder = 'release' | 'chronological'
 
 /** Every title in release order, or the placed titles in story order. */

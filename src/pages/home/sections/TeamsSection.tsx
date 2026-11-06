@@ -56,7 +56,7 @@ export function TeamsSection() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeading id="teams-heading" lead="Assemble" accent="Every team" />
           <p className="max-w-sm leading-relaxed text-ink-mute">
-            Browse the rosters — or pick six characters and build a squad of your own.
+            Browse the rosters, or pick six characters and build a squad of your own.
           </p>
         </div>
 
@@ -68,8 +68,7 @@ export function TeamsSection() {
               <li key={team.slug} data-sticker>
                 <Link
                   to={`/characters?team=${team.slug}`}
-                  aria-label={roster?.count ? `${team.name}: ${roster.count} characters in the archive` : team.name}
-                  className={cn(
+                    className={cn(
                     'group flex aspect-[4/5] flex-col sm:aspect-[5/4] justify-between rounded-[1.75rem] p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-(--ease-cinematic) hover:rotate-0 hover:scale-[1.03] sm:p-7',
                     stickerStyles[index % stickerStyles.length],
                   )}
@@ -91,7 +90,7 @@ export function TeamsSection() {
                             )}
                             style={{ transitionDelay: `${i * 40}ms` }}
                           >
-                            <CharacterArt character={face} decorative tone="void" className="size-full" />
+                            <CharacterArt character={face} decorative tone="void" sizes="56px" className="size-full" />
                           </li>
                         ))}
                       </ul>

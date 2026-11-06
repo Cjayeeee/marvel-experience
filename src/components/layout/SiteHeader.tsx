@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router'
 import { Wordmark } from '@/components/brand/Wordmark'
 import { primaryNav } from '@/config/navigation'
+import { useLibrary } from '@/features/library/useLibrary'
 import { cn } from '@/lib/cn'
 import { useUiStore } from '@/stores/uiStore'
 
@@ -11,6 +12,10 @@ import { useUiStore } from '@/stores/uiStore'
 export function SiteHeader() {
   const menuOpen = useUiStore((s) => s.menuOpen)
   const openMenu = useUiStore((s) => s.openMenu)
+  const archiveCount = useLibrary((s) => {
+    const { favourites, watchlist, teams } = s.library
+    return favourites.characters.length + favourites.titles.length + Object.keys(watchlist).length + teams.length
+  })
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-40 text-white mix-blend-difference">
@@ -40,10 +45,16 @@ export function SiteHeader() {
 
         <div className="pointer-events-auto flex items-center gap-5">
           <NavLink
-            to="/login"
-            className="hidden font-mono text-[0.74rem] uppercase tracking-[0.12em] opacity-75 transition-opacity hover:opacity-100 sm:block"
+            to="/me"
+            className="hidden items-center font-mono text-[0.74rem] uppercase tracking-[0.12em] opacity-75 transition-opacity hover:opacity-100 sm:flex"
           >
-            Sign in
+            My archive
+            {archiveCount ? (
+              <span className="ml-2 inline-flex min-w-5 justify-center rounded-full bg-white px-1.5 py-0.5 text-[0.62rem] leading-none text-black">
+                {archiveCount}
+                <span className="sr-only"> saved</span>
+              </span>
+            ) : null}
           </NavLink>
           <button
             type="button"

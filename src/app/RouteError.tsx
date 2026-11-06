@@ -19,6 +19,7 @@ export function NotFoundPage() {
 function ErrorScreen({ notFound }: { notFound: boolean }) {
   return (
     <section className="flex min-h-dvh items-center bg-void py-32 text-bone">
+      <title>{notFound ? 'Reality not found | Multiverse' : 'Something went wrong | Multiverse'}</title>
       <Container className="flex flex-col gap-8">
         <Eyebrow className="text-mute">
           {notFound ? 'Error 404 · Reality not found' : 'System fault · Unhandled anomaly'}

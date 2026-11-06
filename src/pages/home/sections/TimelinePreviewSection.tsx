@@ -67,7 +67,6 @@ export function TimelinePreviewSection() {
                 <li key={phase.number} className="flex w-[78vw] max-w-[22rem] shrink-0 snap-start sm:w-[22rem]">
                   <Link
                     to={`/timeline#${phase.opener.id}`}
-                    aria-label={`Phase ${phase.number}, ${years}: ${counts}. Opens with ${phase.opener.title}. View on the timeline`}
                     className="group flex w-full flex-col justify-between gap-8 bg-void p-6 text-bone outline-offset-[-4px] transition-colors hover:bg-ink focus-visible:outline-2 focus-visible:outline-red"
                   >
                     <div className="flex items-center justify-between">

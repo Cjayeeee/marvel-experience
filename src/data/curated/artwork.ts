@@ -3,18 +3,29 @@
  *
  * Drop image files into `src/assets/characters/`, named after the character's
  * slug (e.g. `iron-man.webp`, `spider-man-miles-morales.jpg`). They are picked up
- * automatically at build time — no code changes needed. Portraits around
+ * automatically at build time, with no code changes needed. Portraits around
  * 900×1200 (3:4) work best. The full list of slugs is in
  * `src/assets/characters/README.md`.
  *
  * Characters without a file keep the styled monogram placeholder, and a file
  * that fails to load falls back to it too.
  */
-const files = import.meta.glob<string>('/src/assets/characters/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', {
+/*
+ * Each image is built in two sizes by vite-imagetools (see vite.config.ts),
+ * cropped to 3:4 from the top, which is the most any page shows. The originals
+ * stay untouched in src/assets; only these WebP copies ship.
+ */
+const thumbs = import.meta.glob<string>('/src/assets/characters/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', {
   eager: true,
-  query: '?url',
+  query: '?w=420&aspect=3:4&fit=cover&position=top&withoutEnlargement&format=webp&quality=72',
   import: 'default',
 })
+const fulls = import.meta.glob<string>('/src/assets/characters/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', {
+  eager: true,
+  query: '?w=720&aspect=3:4&fit=cover&position=top&withoutEnlargement&format=webp&quality=78',
+  import: 'default',
+})
+
 
 /** Common alternate file names, mapped to the archive slug. */
 const aliases: Record<string, string> = {
@@ -43,13 +54,21 @@ function slugFromPath(path: string): string | undefined {
   return aliases[normalized] ?? normalized
 }
 
-const fromFolder: Record<string, string> = {}
-for (const [path, url] of Object.entries(files)) {
-  const slug = slugFromPath(path)
-  if (slug) fromFolder[slug] = url
+export type Artwork = {
+  /** 420px wide: cards, tiles, thumbnails. */
+  thumb: string
+  /** Up to 720px wide: large portraits and the team poster. */
+  full: string
 }
 
-/** Optional manual overrides (e.g. a URL to an image hosted elsewhere). */
-const overrides: Record<string, string> = {}
+const fromFolder: Record<string, Artwork> = {}
+for (const [path, full] of Object.entries(fulls)) {
+  const slug = slugFromPath(path)
+  const thumb = thumbs[path]
+  if (slug && thumb) fromFolder[slug] = { thumb, full }
+}
 
-export const characterArtwork: Record<string, string> = { ...fromFolder, ...overrides }
+/** Optional manual overrides (e.g. an image hosted elsewhere: use the same URL for both). */
+const overrides: Record<string, Artwork> = {}
+
+export const characterArtwork: Record<string, Artwork> = { ...fromFolder, ...overrides }

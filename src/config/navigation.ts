@@ -33,11 +33,7 @@ export const footerNav: { heading: string; links: { label: string; to: string }[
     ],
   },
   {
-    heading: 'Agent',
-    links: [
-      { label: 'Sign in', to: '/login' },
-      { label: 'Create account', to: '/signup' },
-      { label: 'My file', to: '/me' },
-    ],
+    heading: 'Yours',
+    links: [{ label: 'My archive', to: '/me' }],
   },
 ]

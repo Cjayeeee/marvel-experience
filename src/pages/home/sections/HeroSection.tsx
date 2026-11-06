@@ -6,6 +6,7 @@ import { gsap, SplitText, useGSAP } from '@/motion/gsap'
 import { useUiStore } from '@/stores/uiStore'
 import { HeroPortal } from '@/three/HeroPortal'
 import { heroProgress } from '@/three/scenes/heroPortal/heroProgress'
+import earthHorizon from '@/assets/earth/earth-horizon.webp'
 import { OrbitRing } from '../components/OrbitRing'
 
 const ringText = 'HEROES · VILLAINS · REALITIES · VARIANTS ·'
@@ -20,7 +21,7 @@ export function HeroSection() {
   const introPlaying = useUiStore((s) => s.introPlaying)
   const entrance = useRef<gsap.core.Timeline | null>(null)
 
-  // Entrance — built (and its start state applied) immediately so nothing
+  // Entrance: built (and its start state applied) immediately so nothing
   // flashes behind the intro; it plays once the intro's doors open.
   useGSAP(
     () => {
@@ -86,6 +87,7 @@ export function HeroSection() {
         const section = root.current
         const q = gsap.utils.selector(root)
         const portal = q('[data-hero-portal]')[0]
+        const earth = q('[data-hero-earth]')[0] as HTMLImageElement | undefined
         if (!section || !portal) return
 
         const center = () => {
@@ -106,6 +108,8 @@ export function HeroSection() {
             invalidateOnRefresh: true,
             onUpdate: (self) => {
               heroProgress.value = self.progress
+              // The horizon image (~500 KB) is only seen at the end of the dive: fetch it once the dive starts.
+              if (self.progress > 0.15 && earth && !earth.getAttribute('src')) earth.setAttribute('src', earthHorizon)
             },
           },
         })
@@ -121,6 +125,12 @@ export function HeroSection() {
             { clipPath: () => `circle(0px at ${center().x}px ${center().y}px)` },
             { clipPath: () => `circle(${radius()}px at ${center().x}px ${center().y}px)`, duration: 0.6, ease: 'power2.in' },
             0.4,
+          )
+          .fromTo(
+            q('[data-hero-earth]'),
+            { yPercent: 22, scale: 1.12, autoAlpha: 0 },
+            { yPercent: 0, scale: 1, autoAlpha: 0.3, duration: 0.3, ease: 'power2.out' },
+            0.7,
           )
           .from(q('[data-hero-arrival] > *'), { y: 30, autoAlpha: 0, duration: 0.15, stagger: 0.04, ease: 'power2.out' }, 0.85)
         return () => {
@@ -222,8 +232,22 @@ export function HeroSection() {
         className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center bg-void text-bone"
         style={{ clipPath: 'circle(0px at 50% 50%)' }}
       >
+        {/* Earth-616 rising behind the title card: a pre-rendered halftone horizon */}
+        <img
+          data-hero-earth
+          alt=""
+          width={2000}
+          height={1000}
+          decoding="async"
+          fetchPriority="low"
+          className="invisible absolute bottom-0 left-1/2 w-[min(160svh,230vw)] max-w-none -translate-x-1/2 origin-bottom select-none"
+        />
+
         {/* Title card at the bottom of the dive */}
-        <div data-hero-arrival className="flex flex-col items-center gap-4 px-5 text-center">
+        <div
+          data-hero-arrival
+          className="relative isolate flex flex-col items-center gap-4 px-5 text-center before:absolute before:-inset-x-16 before:-inset-y-14 before:-z-10 before:bg-[radial-gradient(closest-side,var(--color-void)_45%,transparent)]"
+        >
           <Eyebrow className="text-mute">Crossing complete · Now entering</Eyebrow>
           <p className="font-display text-giant uppercase">Earth-616</p>
           <Eyebrow className="text-red-bright">Scroll to explore the archive</Eyebrow>

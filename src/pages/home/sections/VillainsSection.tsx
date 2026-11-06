@@ -50,6 +50,7 @@ export function VillainsSection() {
                 key={active.slug}
                 character={active}
                 tone="red"
+                sizes="(min-width: 1024px) 45vw, 90vw"
                 className="size-full animate-[card-in_0.6s_var(--ease-cinematic)_both]"
               />
             ) : null}

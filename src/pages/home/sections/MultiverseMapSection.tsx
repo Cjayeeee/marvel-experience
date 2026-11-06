@@ -23,7 +23,7 @@ export function MultiverseMapSection() {
         <div className="flex flex-col gap-8">
           <SectionHeading id="map-heading" lead="Explore the" accent="Multiverse" />
           <p className="max-w-md leading-relaxed text-bone/85">
-            Every reality has a designation. Pick one to see what it holds — then step through the portal into
+            Every reality has a designation. Pick one to see what it holds, then step through the portal into
             the full 3D map.
           </p>
 

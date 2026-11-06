@@ -5,8 +5,8 @@ import type { Character, CharacterPage, CharacterQuery, Team, Universe } from '@
 
 /**
  * Character data access. Every call is async so the UI is already written
- * against the shape a network source needs; Milestone 6 swaps the bodies for
- * Supabase queries without touching any component.
+ * against the shape a network source needs; a future database swaps the bodies for
+ * real queries without touching any component.
  */
 
 export const CHARACTER_PAGE_SIZE = 12
@@ -104,6 +104,16 @@ export async function listCharacters(query: CharacterQuery, page = 0, pageSize =
 
 export async function getCharacter(slug: string): Promise<Character | null> {
   return characters.find((c) => c.slug === slug) ?? null
+}
+
+/** Every character, A–Z, for pickers (arena, team builder). */
+export async function getAllCharacters(): Promise<Character[]> {
+  return [...characters].sort((a, b) => a.name.localeCompare(b.name) || (a.alias ?? '').localeCompare(b.alias ?? ''))
+}
+
+/** Characters for a list of slugs, in the same order; unknown slugs are skipped. */
+export async function getCharactersBySlugs(slugs: string[]): Promise<Character[]> {
+  return slugs.flatMap((slug) => characters.find((c) => c.slug === slug) ?? [])
 }
 
 export async function getRelatedCharacters(character: Character): Promise<Character[]> {

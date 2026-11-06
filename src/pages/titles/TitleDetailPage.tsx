@@ -4,6 +4,8 @@ import { ButtonLink } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { Eyebrow } from '@/components/ui/Typography'
 import { CharacterArt } from '@/features/characters/CharacterArt'
+import { FavouriteButton } from '@/features/library/FavouriteButton'
+import { WatchControl } from '@/features/library/WatchControl'
 import { OmdbNotice } from '@/features/titles/OmdbNotice'
 import { useAdjacentTitles, useCharactersInTitle, useTitle, useTitleDetails } from '@/features/titles/queries'
 import { TitlePoster } from '@/features/titles/TitlePoster'
@@ -11,7 +13,7 @@ import { useReveals } from '@/motion/useReveals'
 import { phaseLabel } from '@/services/titles.service'
 import type { Title } from '@/types/title'
 
-/** /titles/:id — briefing page for one film or series. */
+/** /titles/:id: briefing page for one film or series. */
 export function TitleDetailPage() {
   const { id = '' } = useParams()
   const { data: title, isPending } = useTitle(id)
@@ -37,7 +39,7 @@ function Briefing({ title }: { title: Title }) {
 
   return (
     <div ref={root} className="bg-void text-bone">
-      <title>{`${title.title} (${year}) — Multiverse`}</title>
+      <title>{`${title.title} (${year}) | Multiverse`}</title>
 
       <section className="relative overflow-hidden pt-24 pb-16 sm:pt-32 sm:pb-24">
         <Container className="flex flex-col gap-10">
@@ -69,6 +71,11 @@ function Briefing({ title }: { title: Title }) {
               <h1 data-reveal="heading" className="font-display text-[clamp(2.8rem,7vw,6.5rem)] uppercase leading-[0.9] [overflow-wrap:anywhere]">
                 {title.title}
               </h1>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <WatchControl title={title} />
+                <FavouriteButton kind="title" id={title.id} name={title.title} variant="pill" />
+              </div>
 
               {d ? (
                 <ul className="flex flex-wrap gap-2">
@@ -134,7 +141,7 @@ function Briefing({ title }: { title: Title }) {
         <Container className="grid grid-cols-[minmax(0,1fr)] gap-6 md:grid-cols-3">
           <Fact label="Phase">{phaseLabel(title.phase)}</Fact>
           <Fact label="Story order">
-            {title.chronoIndex ? `#${title.chronoIndex}` : '—'}
+            {title.chronoIndex ? `#${title.chronoIndex}` : 'Not placed'}
             <span className="mt-1 block font-mono text-[0.65rem] tracking-[0.1em] text-mute uppercase">
               {title.placement === 'official'
                 ? 'Official · Disney+ timeline order'
@@ -143,7 +150,7 @@ function Briefing({ title }: { title: Title }) {
                   : 'Not yet placed'}
             </span>
           </Fact>
-          <Fact label="Note">{title.note ?? '—'}</Fact>
+          <Fact label="Note">{title.note ?? 'None'}</Fact>
         </Container>
       </section>
 
@@ -236,7 +243,7 @@ function TitleNotFound() {
   return (
     <section className="paper-grain flex min-h-[80dvh] items-end bg-paper pt-32 pb-20 text-ink">
       <Container className="flex flex-col gap-6">
-        <title>Title not found — Multiverse</title>
+        <title>Title not found | Multiverse</title>
         <h1 className="font-display text-giant uppercase">
           <span className="block">Reel</span>
           <span className="block text-red">missing</span>

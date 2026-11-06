@@ -6,7 +6,7 @@ import { gsap, useGSAP } from '@/motion/gsap'
 /**
  * Stepped statement with inline chips (Orbita's "creative cluster" block).
  * On scroll the lines slide in from alternating sides and brighten, and the
- * chips spin into their slots — tied to scroll position, so it can be scrubbed.
+ * chips spin into their slots, tied to scroll position, so it can be scrubbed.
  */
 export function ManifestoSection() {
   const root = useRef<HTMLElement>(null)
@@ -34,7 +34,7 @@ export function ManifestoSection() {
       <Container className="flex flex-col gap-14">
         <h2 id="manifesto" className="font-display text-huge uppercase">
           <span data-line className="block">
-            Multiverse —
+            Multiverse:
           </span>
           <span data-line className="flex flex-wrap items-center gap-x-[0.25em] pl-[8%]">
             an archive
@@ -68,12 +68,12 @@ export function ManifestoSection() {
           <Eyebrow className="text-mute">About this archive</Eyebrow>
           <p className="leading-relaxed text-bone/85">
             Heroes, villains and variants from the comics, the films and the
-            series — each one filed with the universe it belongs to and the
+            series, each one filed with the universe it belongs to and the
             realities it has crossed into.
           </p>
           <p className="leading-relaxed text-bone/85">
-            Every fact is sourced. Where the record is editorial — power ratings,
-            fan timeline placements — it says so on the file.
+            Every fact is sourced. Where the record is editorial (power ratings,
+            fan timeline placements), it says so on the file.
           </p>
         </div>
       </Container>

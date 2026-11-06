@@ -3,13 +3,6 @@ import { RootLayout } from './RootLayout'
 import { NotFoundPage, RouteError } from './RouteError'
 import { RouteFallback } from './RouteFallback'
 
-/** Lazily load one named export from the stub module (one shared chunk). */
-const stub =
-  (name: keyof typeof import('@/pages/stubs/StubPages')) => async () => {
-    const pages = await import('@/pages/stubs/StubPages')
-    return { Component: pages[name] }
-  }
-
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -73,12 +66,27 @@ export const router = createBrowserRouter([
           return { Component: TimelinePage }
         },
       },
-      { path: 'team-builder', lazy: stub('TeamBuilderStub') },
-      { path: 'arena', lazy: stub('ArenaStub') },
-      { path: 'me', lazy: stub('ProfileStub') },
-      { path: 'login', lazy: stub('LoginStub') },
-      { path: 'signup', lazy: stub('SignupStub') },
-      { path: 'reset-password', lazy: stub('ResetPasswordStub') },
+      {
+        path: 'team-builder',
+        lazy: async () => {
+          const { TeamBuilderPage } = await import('@/pages/team-builder/TeamBuilderPage')
+          return { Component: TeamBuilderPage }
+        },
+      },
+      {
+        path: 'arena',
+        lazy: async () => {
+          const { ArenaPage } = await import('@/pages/arena/ArenaPage')
+          return { Component: ArenaPage }
+        },
+      },
+      {
+        path: 'me',
+        lazy: async () => {
+          const { ArchivePage } = await import('@/pages/archive/ArchivePage')
+          return { Component: ArchivePage }
+        },
+      },
       { path: '*', Component: NotFoundPage },
     ],
   },
